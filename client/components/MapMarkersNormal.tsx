@@ -90,9 +90,9 @@ export function MyMap() {
           <MapMarker key={place.id} longitude={place.lng} latitude={place.lat}>
 
             <MarkerContent>
-              <div className="size-5 rounded-full bg-rose-500 border-2 border-white shadow-lg cursor-pointer hover:scale-110 transition-transform" />
+              <div className="size-5 rounded-full bg-sky-500 border-2 border-white shadow-lg cursor-pointer hover:scale-110 transition-transform" />
               <MarkerLabel position="bottom">{place.location}</MarkerLabel>
-              <MarkerLabel position="top" className="text-lg bg-neutral-200 size-6 rounded-full flex items-center justify-center">
+              <MarkerLabel position="top" className="text-lg bg-neutral-200 dark:bg-neutral-950 dark:text-white size-6 rounded-full flex items-center justify-center">
                {place.students.length }
               </MarkerLabel>
             </MarkerContent>
