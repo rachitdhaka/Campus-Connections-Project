@@ -31,27 +31,88 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { UserButton } from "@clerk/nextjs";
 
-
-
+import { AnimatedThemeToggler } from "./ui/animated-theme-toggler";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/nextjs";
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+
+  const data = {
+ 
+  navMain: [
+    {
+      title: "All Alumini",
+      url: "#",
+      icon: IconDashboard,
+    },
+   
+  ]
+}
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <SidebarMenuButton
           asChild
-          className="data-[slot=sidebar-menu-button]:!p-1.5 bg-amber-100"
+          className="data-[slot=sidebar-menu-button]:!p-1.5"
         >
-          <a href="#">
-            <IconInnerShadowTop className="!size-5" />
+          <div>
+            <SidebarTrigger className="-ml-1" />
             <span className="text-base font-semibold">Campus Connection</span>
-          </a>
+          </div>
+        </SidebarMenuButton>
+        <SidebarMenuButton
+          asChild
+          className="data-[slot=sidebar-menu-button]:!p-1.5 w-fit"
+        >
+          <div className="w-fit">
+            <AnimatedThemeToggler />
+          </div>
         </SidebarMenuButton>
       </SidebarHeader>
-      <SidebarContent className="w-72"></SidebarContent>
-      
+
+
+       <SidebarContent className="">
+        <NavMain items={data.navMain} />
+      </SidebarContent>
+
     </Sidebar>
   );
 }
+
+
+
+
+      // <SidebarFooter>
+      //   <SignedIn>
+      //     <SidebarMenu>
+      //       <SidebarMenuItem className="flex items-center gap-2 px-2">
+      //         <UserButton />
+      //         <span className="group-data-[collapsible=icon]:hidden text-sm font-medium">
+      //           <UserButton showName/>
+      //         </span>
+      //       </SidebarMenuItem>
+      //     </SidebarMenu>
+      //   </SignedIn>
+
+      //   {/* agar nahi hai tho  */}
+      //   <SignedOut>
+      //     <SignInButton>
+      //       <a className="mr-4 cursor-pointer" href="/Login">
+      //         Sign in
+      //       </a>
+      //     </SignInButton>
+      //     <SignUpButton>
+      //       <a className="mr-4 cursor-pointer" href="/Signup">
+      //         Sign Up
+      //       </a>
+      //     </SignUpButton>
+      //   </SignedOut>
+      // </SidebarFooter>

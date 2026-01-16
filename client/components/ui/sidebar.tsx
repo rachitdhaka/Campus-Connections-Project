@@ -495,7 +495,7 @@ const sidebarMenuButtonVariants = cva(
   }
 )
 
-function SidebarMenuButton({
+function  SidebarMenuButton({
   asChild = false,
   isActive = false,
   variant = "default",

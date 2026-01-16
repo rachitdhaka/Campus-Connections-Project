@@ -16,7 +16,7 @@ export default function Content() {
   };
 
   return (
-    <div className="h-[90vh] overflow-auto absolute top-15 left-4 z-10 bg-transparent backdrop-blur-md border-b p-2 flex  flex-col  gap-2 w-sm ">
+    <div className="h-[97vh] rounded-lg overflow-auto absolute bg-background z-10  border-b p-2 flex  flex-col  gap-2 w-sm ">
       <Button onClick={fetchingData} className="w-fit">
         Fetch Data
       </Button>

@@ -60,20 +60,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ThemeProvider>
-      <ClerkProvider>
-        <html lang="en" suppressHydrationWarning>
-          <head />
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <head />
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
           >
-            
-              
-              {children}
-            
-          </body>
-        </html>
-      </ClerkProvider>
-    </ThemeProvider>
+            {/* <Navbar/> */}
+            {children}
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

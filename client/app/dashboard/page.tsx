@@ -3,9 +3,11 @@ import { ChartAreaInteractive } from "@/components/chart-area-interactive"
 import { DataTable } from "@/components/data-table"
 import { SectionCards } from "@/components/section-cards"
 import { SiteHeader } from "@/components/site-header"
+import ClusterMap from "@/components/ClusterMap"
 import {
   SidebarInset,
   SidebarProvider,
+  SidebarTrigger
 } from "@/components/ui/sidebar"
 
 import data from "./data.json"
@@ -18,17 +20,16 @@ export default function Page() {
     <SidebarProvider
       style={
         {
-          "--sidebar-width": "calc(var(--spacing) * 72)",
-          "--header-height": "calc(var(--spacing) * 12)",
+          "--sidebar-width": "calc(var(--spacing) * 62)",
+          "--header-height": "calc(var(--spacing) * 22)",
         } as React.CSSProperties
       }
     >
-      <AppSidebar variant="inset" />
+      <AppSidebar variant="floating" />
       <SidebarInset>
-         <Navbar />
-         <Content/>
-         <MyMap/>
+        <ClusterMap/>
       </SidebarInset>
     </SidebarProvider>
   )
 }
+{/* <ClusterMap/> */}

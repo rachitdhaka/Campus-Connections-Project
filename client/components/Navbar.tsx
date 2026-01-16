@@ -10,6 +10,7 @@ import {
 import { Sign } from "crypto";
 import { Separator } from "./ui/separator";
 import { SidebarTrigger } from "./ui/sidebar";
+import { AnimatedThemeToggler } from "./ui/animated-theme-toggler";
 
 export default function Navbar() {
   const navlinks = [
@@ -19,20 +20,8 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="flex h-(--header-height) shrink-0 justify-end items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
-
-
-     <div className="absolute left-1 flex w-fit items-center gap-1 px-4 lg:gap-2 lg:px-6">
-        <SidebarTrigger className="-ml-1" />
-        <Separator
-          orientation="vertical"
-          className="mx-2 data-[orientation=vertical]:h-4"
-        />
-        
-      </div>
-
-
-      <div>
+    <nav className="absolute z-20 top-6 inset-x-0  mx-auto w-4xl  bg-transparent backdrop-blur-xs border rounded-xl flex justify-center items-center px-20 py-2">
+      <div className="">
         <SignedIn>
           <UserButton showName />
         </SignedIn>
@@ -50,10 +39,11 @@ export default function Navbar() {
             </a>
           </SignUpButton>
         </SignedOut>
-        
       </div>
-      <ModeToggle />
-      
+
+      <div className="flex justify-center items-center ml-10">
+        <AnimatedThemeToggler />
+      </div>
     </nav>
   );
 }
