@@ -3,6 +3,16 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
+import {
+  ClerkProvider,
+  SignIn,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
+import Navbar from "@/components/Navbar";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -15,7 +25,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "CampusConnection",
-  description: "CampusConnection helps friends reconnect and stay in touch after graduation.",
+  description:
+    "CampusConnection helps friends reconnect and stay in touch after graduation.",
   keywords: [
     "CampusConnection",
     "friends",
@@ -23,22 +34,24 @@ export const metadata: Metadata = {
     "reconnect",
     "graduation",
     "social network",
-    "community"
+    "community",
   ],
   authors: [{ name: "CampusConnection Team" }],
   creator: "CampusConnection Team",
   openGraph: {
     title: "CampusConnection",
-    description: "Reconnect with friends after graduation and grow your alumni network.",
+    description:
+      "Reconnect with friends after graduation and grow your alumni network.",
     type: "website",
     locale: "en_US",
-    siteName: "CampusConnection"
+    siteName: "CampusConnection",
   },
   twitter: {
     card: "summary_large_image",
     title: "CampusConnection",
-    description: "Reconnect with friends after graduation and grow your alumni network."
-  }
+    description:
+      "Reconnect with friends after graduation and grow your alumni network.",
+  },
 };
 
 export default function RootLayout({
@@ -47,20 +60,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head />
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
-      </body>
-    </html>
+    <ThemeProvider>
+      <ClerkProvider>
+        <html lang="en" suppressHydrationWarning>
+          <head />
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          >
+            
+              
+              {children}
+            
+          </body>
+        </html>
+      </ClerkProvider>
+    </ThemeProvider>
   );
 }

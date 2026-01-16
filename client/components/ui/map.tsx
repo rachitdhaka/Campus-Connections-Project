@@ -1011,6 +1011,13 @@ type MapClusterLayerProps<
     feature: GeoJSON.Feature<GeoJSON.Point, P>,
     coordinates: [number, number]
   ) => void;
+  /** Callback when mouse enters an unclustered point */
+  onPointMouseEnter?: (
+    feature: GeoJSON.Feature<GeoJSON.Point, P>,
+    coordinates: [number, number]
+  ) => void;
+  /** Callback when mouse leaves an unclustered point */
+  onPointMouseLeave?: () => void;
   /** Callback when a cluster is clicked. If not provided, zooms into the cluster */
   onClusterClick?: (
     clusterId: number,
@@ -1029,6 +1036,8 @@ function MapClusterLayer<
   clusterThresholds = [100, 750],
   pointColor = "#3b82f6",
   onPointClick,
+  onPointMouseEnter,
+  onPointMouseLeave,
   onClusterClick,
 }: MapClusterLayerProps<P>) {
   const { map, isLoaded } = useMap();
@@ -1251,13 +1260,35 @@ function MapClusterLayer<
     const handleMouseLeaveCluster = () => {
       map.getCanvas().style.cursor = "";
     };
-    const handleMouseEnterPoint = () => {
+    const handleMouseEnterPoint = (
+      e: MapLibreGL.MapMouseEvent & {
+        features?: MapLibreGL.MapGeoJSONFeature[];
+      }
+    ) => {
       if (onPointClick) {
         map.getCanvas().style.cursor = "pointer";
       }
+
+      if (!onPointMouseEnter || !e.features?.length) return;
+
+      const feature = e.features[0];
+      const coordinates = (
+        feature.geometry as GeoJSON.Point
+      ).coordinates.slice() as [number, number];
+
+      // Handle world copies
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+
+      onPointMouseEnter(
+        feature as unknown as GeoJSON.Feature<GeoJSON.Point, P>,
+        coordinates
+      );
     };
     const handleMouseLeavePoint = () => {
       map.getCanvas().style.cursor = "";
+      onPointMouseLeave?.();
     };
 
     map.on("click", clusterLayerId, handleClusterClick);
@@ -1283,6 +1314,8 @@ function MapClusterLayer<
     sourceId,
     onClusterClick,
     onPointClick,
+    onPointMouseEnter,
+    onPointMouseLeave,
   ]);
 
   return null;

@@ -1,5 +1,15 @@
 import React from "react";
 import { ModeToggle } from "./ModeToggle";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/nextjs";
+import { Sign } from "crypto";
+import { Separator } from "./ui/separator";
+import { SidebarTrigger } from "./ui/sidebar";
 
 export default function Navbar() {
   const navlinks = [
@@ -7,38 +17,43 @@ export default function Navbar() {
     { name: "About", href: "/about" },
     { name: "Services", href: "/services" },
   ];
+
   return (
-    <div className="fixed z-10 w-full border-b-2 border-border bg-transparent backdrop-blur-md flex justify-between items-center px-8 py-2">
-      <div>
-        <ul className="flex gap-4">
-          {navlinks.map((link) => (
-            <li key={link.name} className="flex">
-              <a
-                href={link.href}
-                className="text-foreground hover:text-muted-foreground transition-colors"
-              >
-                {link.name}
-              </a>
-            </li>
-          ))}
-        </ul>
+    <nav className="flex h-(--header-height) shrink-0 justify-end items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
+
+
+     <div className="absolute left-1 flex w-fit items-center gap-1 px-4 lg:gap-2 lg:px-6">
+        <SidebarTrigger className="-ml-1" />
+        <Separator
+          orientation="vertical"
+          className="mx-2 data-[orientation=vertical]:h-4"
+        />
+        
       </div>
 
-      <div className="flex gap-4 items-center">
-        <ModeToggle />
-        <a
-          href="/login"
-          className="text-foreground hover:text-muted-foreground transition-colors"
-        >
-          Login
-        </a>
-        <a
-          href="/signup"
-          className="text-foreground hover:text-muted-foreground transition-colors"
-        >
-          Signup
-        </a>
+
+      <div>
+        <SignedIn>
+          <UserButton showName />
+        </SignedIn>
+
+        {/* agar nahi hai tho  */}
+        <SignedOut>
+          <SignInButton>
+            <a className="mr-4 cursor-pointer" href="/Login">
+              Sign in
+            </a>
+          </SignInButton>
+          <SignUpButton>
+            <a className="mr-4 cursor-pointer" href="/Signup">
+              Sign Up
+            </a>
+          </SignUpButton>
+        </SignedOut>
+        
       </div>
-    </div>
+      <ModeToggle />
+      
+    </nav>
   );
 }

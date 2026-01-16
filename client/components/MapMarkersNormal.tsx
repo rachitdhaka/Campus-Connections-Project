@@ -1,3 +1,4 @@
+"use client";
 import {
   Map,
   MapMarker,
@@ -6,8 +7,10 @@ import {
   MarkerPopup,
   MapControls,
 } from "@/components/ui/map";
-import { Button } from "@/components/ui/button";
-import { Star, Navigation, Clock, ExternalLink } from "lucide-react";
+import Content from "./Content";
+import Navbar from "./Navbar";
+import { useEffect } from "react";
+import { useUser } from "@clerk/nextjs";
 
 const places = [
   {
@@ -24,6 +27,21 @@ const places = [
     lng: 75.8267,
     lat: 26.9239,
   },
+  {
+    id: 1,
+    location: "Kolathur",
+    students: ["Manu Paaji", "sarah", "david", "emma", "lucas"],
+    companies: [
+      "Aceternity",
+      "Google",
+      "InnovateLabs",
+      "StartupHub",
+      "DevSolutions",
+    ],
+    lng: 80.2046,
+    lat: 13.1241,
+  },
+  
   {
     id: 2,
     location: "Bangalore",
@@ -75,10 +93,21 @@ const places = [
 ];
 
 export function MyMap() {
+  const { isSignedIn, user} = useUser();
+  useEffect(() => {
+    if (isSignedIn) {
+      console.log("User is signed in:", user);
+    } else {
+      console.log("User is not signed in.");
+    }
+  }, [isSignedIn, user]);
+
+  
   return (
     <div className="h-full w-full rounded-lg overflow-hidden">
-      <Map center={[78.4867, 20.5937]} zoom={4}>
+      
 
+      <Map center={[78.4867, 20.5937]} zoom={4}>
         <MapControls
           position="bottom-right"
           showZoom
@@ -88,12 +117,14 @@ export function MyMap() {
         />
         {places.map((place) => (
           <MapMarker key={place.id} longitude={place.lng} latitude={place.lat}>
-
             <MarkerContent>
               <div className="size-5 rounded-full bg-sky-500 border-2 border-white shadow-lg cursor-pointer hover:scale-110 transition-transform" />
               <MarkerLabel position="bottom">{place.location}</MarkerLabel>
-              <MarkerLabel position="top" className="text-lg bg-neutral-200 dark:bg-neutral-950 dark:text-white size-6 rounded-full flex items-center justify-center">
-               {place.students.length }
+              <MarkerLabel
+                position="top"
+                className="text-lg bg-neutral-200 dark:bg-neutral-950 dark:text-white size-6 rounded-full flex items-center justify-center"
+              >
+                {place.students.length}
               </MarkerLabel>
             </MarkerContent>
             <MarkerPopup className="p-0 w-62">
